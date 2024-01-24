@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/url.php';
-$host = 'localhost:4306';
+$host = 'localhost';
 $dbname = 'polidinus';
 $username = 'root';
 $password = '';
