@@ -51,6 +51,7 @@ ob_start();?>
   <?php
                     $poli = $pdo->prepare("SELECT d.nama_poli as poli_nama,
                                                   c.nama as dokter_nama, 
+                                                  e.nama as pasien_nama, 
                                                   b.hari as jadwal_hari, 
                                                   b.jam_mulai as jadwal_mulai, 
                                                   b.jam_selesai as jadwal_selesai,
@@ -65,6 +66,8 @@ ob_start();?>
                                                     ON b.id_dokter = c.id
                                                   INNER JOIN poli as d
                                                     ON c.id_poli = d.id
+                                                  INNER JOIN pasien as e
+                                                    ON a.id_pasien = e.id
                                                   WHERE a.id = $id_poli");
                     $poli->execute();
                     $no = 0;
@@ -73,7 +76,8 @@ ob_start();?>
                     } else {
                       while($p = $poli->fetch()) {
                     ?>
-
+                      <button id="printButton" class="btn btn-primary">Cetak NO Antrian</button>
+                      <div id="nota">
                       <div class="card text-center">
                           <div class="card-header d-flex">
                             <div class="card-header">
@@ -91,6 +95,11 @@ ob_start();?>
                               <h5 class="card-title col mb-2">Nama Dokter</h5>
                               <h5 class="card-title col mb-2">:</h5>
                               <h5 class="card-title col mb-2"><?= $p['dokter_nama']?></h5>
+                            </div>
+                            <div class="row gx-5">
+                              <h5 class="card-title col mb-2">Nama Pasien</h5>
+                              <h5 class="card-title col mb-2">:</h5>
+                              <h5 class="card-title col mb-2"><?= $p['pasien_nama']?></h5>
                             </div>
                             <div class="row gx-5">
                               <h5 class="card-title col mb-2">Hari</h5>
@@ -112,6 +121,8 @@ ob_start();?>
                             Semoga Lekas Sembuh :)
                           </div>
                       </div>
+                      </div>
+                   
 
                     <?php
                       }
@@ -119,6 +130,32 @@ ob_start();?>
                     ?>
   </div>
 </div>
+<script>
+    // Fungsi untuk mencetak nota
+    function cetakNota() {
+        // Dapatkan elemen dengan id 'nota'
+        var notaElement = document.getElementById('nota');
+
+        // Salin konten nota untuk dicetak
+        var notaContent = notaElement.outerHTML;
+
+        // Buka jendela cetak baru
+        var printWindow = window.open('', '_blank');
+        
+        // Tambahkan konten nota ke jendela cetak
+        printWindow.document.write('<html><head><title>Nota Cetak</title></head><body>');
+        printWindow.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">'); // Tambahkan link ke file Bootstrap jika diperlukan
+        printWindow.document.write(notaContent);
+        printWindow.document.write('</body></html>');
+
+        // Tutup jendela cetak setelah mencetak
+        printWindow.document.close();
+        printWindow.print();
+    }
+
+    // Tangani klik pada tombol cetak
+    document.getElementById('printButton').addEventListener('click', cetakNota);
+</script>
 <?php
 $content = ob_get_clean();
 ob_flush();
