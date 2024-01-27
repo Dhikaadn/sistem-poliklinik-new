@@ -27,7 +27,17 @@ $jadwal = query("SELECT * FROM jadwal_periksa WHERE id = $id")[0];
 // Input data to db
 if (isset($_POST["submit"])) {
     // Cek validasi
-    if (empty($_POST["hari"]) || empty($_POST["jam_mulai"]) || empty($_POST["jam_selesai"])) {
+
+    
+    // if (empty($_POST["hari"]) || empty($_POST["jam_mulai"]) || empty($_POST["jam_selesai"])) {
+              // cek apakah data berhasil di tambahkan atau tidak
+        if (updateJadwalPeriksa($_POST, $id) > 0) {
+            echo "
+            <script>
+                alert('Data berhasil ditambahkan');
+                document.location.href = '../';
+            </script>
+        ";
         echo "
           <script>
               alert('Data tidak boleh kosong');
@@ -88,7 +98,7 @@ ob_start();?>
       <input type="hidden" name="id_dokter" value="<?=$id_dokter?>">
       <div class="form-group">
         <label for="hari">Hari</label>
-        <select name="hari" id="hari" class="form-control">
+        <select name="hari" id="hari" class="form-control" disabled>
           <option hidden>-- Pilih Hari --</option>
           <?php
             $hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
@@ -103,11 +113,11 @@ ob_start();?>
       </div>
       <div class="form-group">
         <label for="jam_mulai">Jam Mulai</label>
-        <input type="time" name="jam_mulai" id="jam_mulai" class="form-control" value="<?= date('H:i', strtotime($jadwal['jam_mulai'])) ?>">
+        <input type="time" name="jam_mulai" id="jam_mulai" class="form-control" value="<?= date('H:i', strtotime($jadwal['jam_mulai'])) ?>" disabled>
       </div>
       <div class="form-group">
         <label for="jam_selesai">Jam Selesai</label>
-        <input type="time" name="jam_selesai" id="jam_selesai" class="form-control" value="<?=date('H:i', strtotime($jadwal['jam_selesai']))?>">
+        <input type="time" name="jam_selesai" id="jam_selesai" class="form-control" value="<?=date('H:i', strtotime($jadwal['jam_selesai']))?>" disabled>
       </div>
       <div class="form-group ml-3">
         <label for="jam_selesai">Status</label>

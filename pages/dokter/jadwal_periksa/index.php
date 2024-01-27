@@ -86,10 +86,10 @@ ob_start();
           <td><?= $d['hari'] ?></td>
           <td><?= $d['jam_mulai'] ?></td>
           <td><?= $d['jam_selesai'] ?></td>
-          <td><?= $d['status'] ?></td>
+          <td id="data-status"><?= $d['status'] ?></>
           <td>
             <a href="edit.php/<?= $d['id']?>" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Edit</a>
-            <!-- <a href="delete.php/<?= $d['id']?>" class="btn btn-danger btn-sm delete-button"><i class="fa fa-trash"></i>Delete</a> -->
+            <a href="delete.php/<?= $d['id']?>" class="btn btn-danger btn-sm delete-button"><i class="fa fa-trash"></i>Delete</a>
           </td>
         </tr>
         <?php
@@ -100,6 +100,8 @@ ob_start();
     </table>
   </div>
 </div>
+
+
 <?php
 $content = ob_get_clean();
 ob_flush();

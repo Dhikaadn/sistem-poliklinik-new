@@ -76,12 +76,13 @@ function updateJadwalPeriksa($data, $id)
     try {
         global $conn;
 
-        $hari = mysqli_real_escape_string($conn, $data["hari"]);
-        $jam_mulai = mysqli_real_escape_string($conn, $data["jam_mulai"]);
-        $jam_selesai = mysqli_real_escape_string($conn, $data["jam_selesai"]);
+        // $hari = mysqli_real_escape_string($conn, $data["hari"]);
+        // $jam_mulai = mysqli_real_escape_string($conn, $data["jam_mulai"]);
+        // $jam_selesai = mysqli_real_escape_string($conn, $data["jam_selesai"]);
         $status = mysqli_real_escape_string($conn, $data["status"]);
 
-        $query = "UPDATE jadwal_periksa SET hari = '$hari', jam_mulai = '$jam_mulai', jam_selesai = '$jam_selesai', status = '$status' WHERE id = $id ";
+        // $query = "UPDATE jadwal_periksa SET hari = '$hari', jam_mulai = '$jam_mulai', jam_selesai = '$jam_selesai', status = '$status' WHERE id = $id ";
+        $query = "UPDATE jadwal_periksa SET status = '$status' WHERE id = $id ";
 
         if (mysqli_query($conn, $query)) {
             return mysqli_affected_rows($conn); // Return the number of affected rows
